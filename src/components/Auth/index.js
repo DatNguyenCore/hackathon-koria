@@ -26,6 +26,7 @@ import {
   where,
 } from "firebase/firestore";
 import useFetchCurrentUser from "../../utils/fetchCurrentUser";
+import { getAvatar } from "../Post/data";
 
 const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(false);
@@ -85,6 +86,7 @@ const Auth = () => {
         fullName: onboardingForm.fullName,
         username: onboardingForm.username,
         email: auth.currentUser.email,
+        url: getAvatar(),
         id: auth.currentUser.uid,
         createdAt: serverTimestamp(),
       });

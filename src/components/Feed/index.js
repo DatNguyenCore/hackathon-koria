@@ -138,14 +138,15 @@ const Feed = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // setLoading(true);
-    // const postsCollection = collection(db, "posts");
-    // const q = query(postsCollection, orderBy("createdAt", "desc"));
-    // onSnapshot(q, (snapshot) => {
-    //   const posts = snapshot.docs.map((doc) => doc.data());
-    //   setPosts(posts);
-    //   setLoading(false);
-    // });
+    setLoading(true);
+    const postsCollection = collection(db, "users");
+    const q = query(postsCollection, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const users = snapshot.docs.map((doc) => doc.data());
+      console.log(users);
+      setUsers(users);
+      setLoading(false);
+    });
   }, []);
 
   const getPosts = async () => {
@@ -168,7 +169,7 @@ const Feed = () => {
 
   useEffect(() => {
     getPosts();
-    getUsers();
+    // getUsers();
   }, []);
 
   return (
@@ -242,7 +243,7 @@ const Feed = () => {
       <div className="grid w-full mx-auto mt-20 bg-white">
         <div className="flex flex-col w-full col-span-2 space-y-5 border-t-2 border-pink-500">
           <section className="col-span-4 w-screen flex items-center">
-            <ul className="w-full flex justify-between items-start space-x-3 overflow-x-scroll stories bg-white p-4 rounded">
+            <ul className="w-full flex items-start space-x-3 overflow-x-scroll stories bg-white p-4 rounded">
               <li className="flex flex-none flex-col items-center space-y-1">
                 <div className="bg-gradient-to-tr from-yellow-400 to-fuchsia-600 p-1 rounded-full">
                   <a
@@ -299,8 +300,8 @@ const Feed = () => {
                         className="block bg-white p-1 rounded-full relative"
                       >
                         <img
-                          src={user.image_url}
-                          alt={user.name}
+                          src={user.url}
+                          alt={user.fullName}
                           className="w-16 h-16 rounded-full object-cover"
                         />
                       </a>
@@ -357,11 +358,7 @@ const Feed = () => {
               </div>
               {users.map((item) => {
                 return (
-                  <Friend
-                    key={item.name}
-                    img={item.image_url}
-                    name={item.name}
-                  />
+                  <Friend key={item.id} img={item.url} name={item.fullName} />
                 );
               })}
             </div>

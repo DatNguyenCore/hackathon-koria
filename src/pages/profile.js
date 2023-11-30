@@ -2,13 +2,11 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import Header from "../components/Header";
 import { GlobalContext } from "../state/context/GlobalContext";
+import Auth from "../components/Auth";
 
 const ProfilePage = () => {
-  const { user } = useContext(GlobalContext);
-
-  console.log("user.url", user);
-
-  return (
+  const { user, isAuthenticated, isOnboarded } = useContext(GlobalContext);
+  return user && isAuthenticated && isOnboarded ? (
     <div className="w-full h-full bg-[#FAFAFA]">
       <Header />
 
@@ -107,7 +105,7 @@ const ProfilePage = () => {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    제니
+                    {user.fullName}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
@@ -127,7 +125,9 @@ const ProfilePage = () => {
                     <div className="w-full lg:w-9/12 px-4">
                       <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
                         IT매니저이자 1인 크리에이터 활동을 하고있으며, Day
-                        Dreamer 의 삶을 추구합니다.<br /> # giving it a warm<br /> # INFP
+                        Dreamer 의 삶을 추구합니다.
+                        <br /> # giving it a warm
+                        <br /> # INFP
                       </p>
                       <a href="#pablo" className="font-normal text-pink-500">
                         Show more
@@ -171,6 +171,8 @@ const ProfilePage = () => {
         </section>
       </div>
     </div>
+  ) : (
+    <Auth />
   );
 };
 
