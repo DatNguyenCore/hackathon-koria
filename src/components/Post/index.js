@@ -1,4 +1,4 @@
-import { uuidv4 } from '@firebase/util';
+import { uuidv4 } from "@firebase/util";
 import {
   collection,
   deleteDoc,
@@ -10,15 +10,15 @@ import {
   setDoc,
   updateDoc,
   where,
-} from 'firebase/firestore';
-import Image from 'next/image';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { BsBookmark, BsEmojiSmile, BsThreeDots } from 'react-icons/bs';
-import { FaRegComment } from 'react-icons/fa';
-import { IoShareOutline } from 'react-icons/io5';
-import { auth, db } from '../../lib/firebase';
-import { GlobalContext } from '../../state/context/GlobalContext';
+} from "firebase/firestore";
+import Image from "next/image";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsBookmark, BsEmojiSmile, BsThreeDots } from "react-icons/bs";
+import { FaRegComment } from "react-icons/fa";
+import { IoShareOutline } from "react-icons/io5";
+import { auth, db } from "../../lib/firebase";
+import { GlobalContext } from "../../state/context/GlobalContext";
 
 const Post = ({ id, username, image, caption, likesCount }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -60,11 +60,11 @@ const Post = ({ id, username, image, caption, likesCount }) => {
   };
 
   useEffect(() => {
-    const likesRef = collection(db, 'likes');
+    const likesRef = collection(db, "likes");
     const likesQuery = query(
       likesRef,
-      where('postId', '==', id),
-      where('userId', '==', auth.currentUser.uid)
+      where("postId", "==", id),
+      where("userId", "==", auth.currentUser.uid)
     );
 
     const unsubscribeLike = onSnapshot(likesQuery, (snapshot) => {
@@ -77,7 +77,7 @@ const Post = ({ id, username, image, caption, likesCount }) => {
     });
 
     const commentsRef = collection(db, `posts/${id}/comments`);
-    const commentsQuery = query(commentsRef, orderBy('createdAt', 'desc'));
+    const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
 
     const unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
       const comments = snapshot.docs.map((doc) => doc.data());
@@ -103,7 +103,7 @@ const Post = ({ id, username, image, caption, likesCount }) => {
       comment: comment.current.value,
       createdAt: serverTimestamp(),
     };
-    comment.current.value = '';
+    comment.current.value = "";
     const commentRef = doc(db, `posts/${id}/comments/${commentData.id}`);
     await setDoc(commentRef, commentData);
   };
@@ -119,12 +119,18 @@ const Post = ({ id, username, image, caption, likesCount }) => {
           <BsThreeDots className="text-lg" />
         </div>
       </div>
-      <div className="relative flex items-center justify-center bg-black aspect-square">
+      <div
+        className="relative flex items-center justify-center bg-black aspect-video"
+        style={{
+          height: "auto",
+          minHeight: "100%",
+        }}
+      >
         <Image
           src={image}
           layout="fill"
           alt={caption}
-          className="object-contain"
+          className="object-cover"
         />
       </div>
       <div className="flex justify-between p-2 text-lg">
@@ -163,7 +169,7 @@ const Post = ({ id, username, image, caption, likesCount }) => {
         </div>
       </div>
       <div className="px-2">
-        {likesCount ? `${likesCount} likes` : 'Be the first to like'}
+        {likesCount ? `${likesCount} likes` : "Be the first to like"}
       </div>
       <div className="px-2">{caption}</div>
       <div className="p-2">
