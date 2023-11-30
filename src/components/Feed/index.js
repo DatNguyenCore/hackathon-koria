@@ -226,28 +226,8 @@ const Feed = () => {
         </div>
       </Modal>
 
-      {/* <div className="w-full">
-        <section className="flex p-4 space-x-4 span-2 overflow-x-scroll bg-white border border-black/10">
-          {new Array(10).fill(0).map((_, i) => (
-            <div
-              key={i}
-              className="rounded-full w-14 ring-[2px] ring-pink-500 ring-offset-2 h-14 bg-black flex-none"
-            />
-          ))}
-        </section>
-      </div> */}
-
-      <div className="grid w-full max-w-screen-lg mx-auto mt-20 ">
+      <div className="grid w-full mx-auto mt-20 bg-white">
         <div className="flex flex-col w-full col-span-2 space-y-5 border-t-2 border-pink-500">
-          {/* stories section */}
-          {/* <section className="flex p-4 space-x-4 span-2 overflow-x-scroll bg-white border border-black/10">
-            {new Array(10).fill(0).map((_, i) => (
-              <div
-                key={i}
-                className="rounded-full w-14 ring-[2px] ring-pink-500 ring-offset-2 h-14 bg-black flex-none"
-              />
-            ))}
-          </section> */}
           <section className="col-span-4 w-screen flex items-center">
             <ul className="w-full flex justify-between items-start space-x-3 overflow-x-scroll stories bg-white p-4 rounded">
               <li className="flex flex-none flex-col items-center space-y-1">
@@ -321,8 +301,8 @@ const Feed = () => {
             </ul>
           </section>
 
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-3 bg-red-100 bg-green-500">
+          <div className="grid grid-cols-4 gap-4 w-full w-[1200px] mx-auto">
+            <div className="col-span-3 ">
               {posts.map((post) => (
                 <Post key={post.id} {...post} />
               ))}
