@@ -6,7 +6,7 @@ export default function handler(req, res) {
   const jsonFilePath = path.resolve("src/files/posts.json");
   const posts = readJsonFile(jsonFilePath);
   if (req.method === "GET") {
-    res.status(200).json(sortPost);
+    res.status(200).json(posts);
   }
   if (req.method === "PUT") {
     posts.unshift(req.body);

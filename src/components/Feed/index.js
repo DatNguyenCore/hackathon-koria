@@ -89,6 +89,7 @@ const Feed = () => {
     };
     try {
       await axios.put("/api/posts/", post);
+      handleRemovePost();
       closeModal();
       getPosts();
     } catch (error) {
@@ -173,7 +174,7 @@ const Feed = () => {
     <div className="w-full h-full bg-[#FAFAFA]">
       <Header />
       <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
-        <div className="w-screen h-screen max-w-3xl max-h-[70vh] flex flex-col items-center">
+        <div className="w-screen h-screen max-w-3xl max-h-[90vh] flex flex-col items-center">
           <div className="w-full py-4 text-xl font-light text-center border-b border-black">
             Create new post
           </div>
