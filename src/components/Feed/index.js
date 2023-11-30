@@ -83,6 +83,7 @@ const Feed = () => {
     const post = {
       id: postId,
       image: url,
+      userUrl: user.url,
       caption: media.caption,
       username: user.username,
       createdAt: new Date().toISOString(),

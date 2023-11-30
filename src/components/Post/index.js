@@ -20,8 +20,18 @@ import { IoShareOutline } from "react-icons/io5";
 import { auth, db } from "../../lib/firebase";
 import { GlobalContext } from "../../state/context/GlobalContext";
 import ModalArticle from "../ModalArticle";
+import { getAvatar } from "./data";
 
-const Post = ({ id, username, image, caption, likesCount, desc, images }) => {
+const Post = ({
+  id,
+  username,
+  image,
+  caption,
+  likesCount,
+  desc,
+  images,
+  userUrl,
+}) => {
   const [visible, setVisible] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState([]);
@@ -125,7 +135,13 @@ const Post = ({ id, username, image, caption, likesCount, desc, images }) => {
       <div className="flex flex-col w-full border border-gray-200">
         <div className="flex items-center justify-between w-full p-2 ">
           <div className="flex items-center justify-center space-x-2">
-            <div className="w-10 h-10 bg-black border-2 rounded-full" />
+            <Image
+              alt=""
+              width={40}
+              height={40}
+              src={userUrl ?? getAvatar()}
+              className="bg-black border-2 rounded-full"
+            />
             <div>{username}</div>
           </div>
           <div className="w-4 select-none">
@@ -227,7 +243,7 @@ const Post = ({ id, username, image, caption, likesCount, desc, images }) => {
         onOpenModal={onOpenModal}
       >
         <div>
-          <div className="grid grid-rows-3 grid-flow-col gap-4">
+          <div className="grid grid-rows-2 grid-flow-col gap-4">
             {Array.isArray(images) &&
               images.map((item) => {
                 return (
