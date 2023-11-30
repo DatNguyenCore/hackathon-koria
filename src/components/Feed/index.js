@@ -80,34 +80,48 @@ const Feed = () => {
 
   const handlePostMedia = async (url) => {
     const postId = uuidv4();
-    const postRef = doc(db, "posts", postId);
     const post = {
       id: postId,
       image: url,
       caption: media.caption,
       username: user.username,
-      createdAt: serverTimestamp(),
+      createdAt: new Date().toISOString(),
     };
     try {
-      const { data } = await axios.put("/api/posts/", post);
+      await axios.put("/api/posts/", post);
+      closeModal();
+      getPosts();
     } catch (error) {
       console.error(error);
       toast.error("error posting the image");
     }
   };
 
+  const handleUploadFile = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+  };
+
   const handleUploadPost = async () => {
     try {
-      const uploadTask = await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(uploadTask.ref);
-      await handlePostMedia(url);
-      toast.success("image has uploaded", {
-        id: toastId,
-      });
+      const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjA1NTBjZjMyLTlkMzYtNGUxNy05NTJjLThkYTk4ZDllYmU1OCIsImZhbWlseVRva2VuIjoiMWI2ZmZlZjQtMzQyZS00MmZkLTg2Y2ItMmRmYjMxZjYyZGIwIiwiaWF0IjoxNzAxMzM2OTc3LCJleHAiOjE3MDEzNDA1Nzd9.A4emNFjxprP5xeVDB9rDHlDZHhf2ycjPEbGDr581YxLyW3Q2-su7OUs8Hg-KuRz0-t8XO8Cdd3krW7rrPu8wrl-Eo9VvHmC3ywCNK0QfzEf7_vwmMvQjkS8VeSxDolwp99Ace0tNaIvUjyiKgZmIVt3pUv0Gc0vMvzzppsX9Zvj2ZpFrtEj8m6TDCFEYzmYFQCgMifTkbIv0bLdAHr1aByFc0KAUGMeVuVkDNesIlQMT0l7hP4GkPlZUgmoM-FWmkCmJyEQgSqzl8mJasCGPjpP37H_DAFLf5YHuvroGQpxO_17VoQkvwykfAU3-QGQX4jgO9b0O_rSrsxTj3_6GLg`;
+      const formData = new FormData();
+      formData.append("file", file);
+      const { data } = await axios.post(
+        "https://bestone-api-dev.approach.vn/file",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (data) {
+        await handlePostMedia(data.url);
+        toast.success("image has uploaded");
+      }
     } catch (error) {
-      toast.error("failed to upload the image", {
-        id: toastId,
-      });
+      toast.error("failed to upload the image");
     } finally {
     }
   };
@@ -174,7 +188,7 @@ const Feed = () => {
                 </label>
 
                 <input
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={handleUploadFile}
                   value={file.name}
                   type="file"
                   name="post"

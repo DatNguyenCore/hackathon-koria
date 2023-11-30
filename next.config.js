@@ -11,6 +11,7 @@ const nextConfig = {
       "dynamic-media-cdn.tripadvisor.com",
       "cdn.tgdd.vn",
       "demos.creative-tim.com",
+      "minio-api.dev.approach.vn",
     ],
   },
   experimental: {
