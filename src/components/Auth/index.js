@@ -1,20 +1,20 @@
-import { useContext, useMemo, useState } from 'react';
-import Lottie from 'react-lottie-player';
-import AuthAnimation from '../../../public/assets/animations/auth-page-animation.json';
-import useForm from '../../hooks/useForm';
-import { AiFillFacebook } from 'react-icons/ai';
+import { useContext, useMemo, useState } from "react";
+import Lottie from "react-lottie-player";
+import AuthAnimation from "../../../public/assets/animations/auth-page-animation.json";
+import useForm from "../../hooks/useForm";
+import { AiFillFacebook } from "react-icons/ai";
 import {
   GlobalContext,
   GlobalDispatchContext,
-} from '../../state/context/GlobalContext';
-import { auth, db } from '../../lib/firebase';
+} from "../../state/context/GlobalContext";
+import { auth, db } from "../../lib/firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-} from 'firebase/auth';
-import { handlePromise } from '../../utils/handlePromise';
-import { toast } from 'react-hot-toast';
-import LoadingOverlay from '../LoadingOverlay';
+} from "firebase/auth";
+import { handlePromise } from "../../utils/handlePromise";
+import { toast } from "react-hot-toast";
+import LoadingOverlay from "../LoadingOverlay";
 import {
   collection,
   doc,
@@ -24,8 +24,8 @@ import {
   serverTimestamp,
   setDoc,
   where,
-} from 'firebase/firestore';
-import useFetchCurrentUser from '../../utils/fetchCurrentUser';
+} from "firebase/firestore";
+import useFetchCurrentUser from "../../utils/fetchCurrentUser";
 
 const Auth = () => {
   const [isLoginForm, setIsLoginForm] = useState(false);
@@ -37,17 +37,18 @@ const Auth = () => {
 
   const dispatch = useContext(GlobalDispatchContext);
 
+  const [showErrorPassword, setShowErrorPassword] = useState(false);
   const { form, onChangeHandler, resetForm } = useForm({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const {
     form: onboardingForm,
     onChangeHandler: onboardingFormOnChangeHandler,
   } = useForm({
-    username: '',
-    fullName: '',
+    username: "",
+    fullName: "",
   });
 
   const authenticate = async () => {
@@ -66,21 +67,21 @@ const Auth = () => {
 
   const setUserData = async () => {
     try {
-      const userCollection = collection(db, 'users');
+      const userCollection = collection(db, "users");
 
       const userQuery = query(
         userCollection,
-        where('username', '==', onboardingForm.username)
+        where("username", "==", onboardingForm.username)
       );
 
       const usersSnapshot = await getDocs(userQuery);
 
       if (usersSnapshot.docs.length > 0) {
-        toast.error('username already exists');
+        toast.error("username already exists");
         return;
       }
 
-      await setDoc(doc(db, 'users', auth.currentUser.email), {
+      await setDoc(doc(db, "users", auth.currentUser.email), {
         fullName: onboardingForm.fullName,
         username: onboardingForm.username,
         email: auth.currentUser.email,
@@ -88,10 +89,10 @@ const Auth = () => {
         createdAt: serverTimestamp(),
       });
 
-      toast.success('welcome to KOVi clone by clubofcoders.com');
+      toast.success("welcome to KOVi clone by clubofcoders.com");
 
       dispatch({
-        type: 'SET_IS_ONBOARDED',
+        type: "SET_IS_ONBOARDED",
         payload: {
           isOnboarded: true,
         },
@@ -103,8 +104,13 @@ const Auth = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (form.password.length < 8) {
+      setShowErrorPassword(true);
+      return;
+    }
+    setShowErrorPassword(false);
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
         isLoading: true,
       },
@@ -120,13 +126,13 @@ const Auth = () => {
 
     if (userData) {
       dispatch({
-        type: 'SET_USER',
+        type: "SET_USER",
         payload: {
           user: userData,
         },
       });
       dispatch({
-        type: 'SET_IS_ONBOARDED',
+        type: "SET_IS_ONBOARDED",
         payload: {
           isOnboarded: true,
         },
@@ -134,7 +140,7 @@ const Auth = () => {
     }
 
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
         isLoading: false,
       },
@@ -143,7 +149,7 @@ const Auth = () => {
     if (error) toast.error(error.message);
     if (!error)
       toast.success(
-        `you have successfully ${isLoginForm ? 'logged in' : 'signed up'}`
+        `you have successfully ${isLoginForm ? "logged in" : "signed up"}`
       );
     resetForm();
   };
@@ -155,14 +161,14 @@ const Auth = () => {
   const onboardingSubmitHandler = async (e) => {
     e.preventDefault();
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
         isLoading: true,
       },
     });
     await setUserData();
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
         isLoading: false,
       },
@@ -207,12 +213,17 @@ const Auth = () => {
                   placeholder="Password"
                   className="w-full px-2 py-1 transition bg-gray-100 border rounded-sm outline-none hover:bg-transparent focus:bg-transparent placeholder:text-sm focus:border-gray-400"
                 />
+                {showErrorPassword && (
+                  <p className="text-red-500">
+                    Password must be 8 characters long
+                  </p>
+                )}
                 <button
                   type="submit"
                   className="bg-[#0095F6] py-1 text-white active:scale-95 transform transition w-full disabled:bg-opacity-50 disabled:scale-100 rounded text-sm font-semibold"
                   disabled={isDisabled}
                 >
-                  {isLoginForm ? 'Log In' : 'Sign Up'}
+                  {isLoginForm ? "Log In" : "Sign Up"}
                 </button>
               </form>
             )}
@@ -263,7 +274,7 @@ const Auth = () => {
             <div className="flex items-center justify-center w-full text-center text-indigo-900">
               <AiFillFacebook className="inline-block mr-2 text-2xl" />
               <span className="text-sm font-semibold">
-                {isLoginForm ? 'Log in' : 'Sign Up'} with Facebook
+                {isLoginForm ? "Log in" : "Sign Up"} with Facebook
               </span>
             </div>
             {isLoginForm && (
@@ -275,12 +286,12 @@ const Auth = () => {
           <div className="w-full py-5 space-y-5 text-sm text-center bg-white border border-gray-300">
             {isLoginForm
               ? "Don't have an account?"
-              : 'Already have an account?'}
+              : "Already have an account?"}
             <button
               onClick={() => setIsLoginForm((prev) => !prev)}
               className="ml-2 font-semibold text-blue-600"
             >
-              {isLoginForm ? 'Sign Up' : 'Login'}
+              {isLoginForm ? "Sign Up" : "Login"}
             </button>
           </div>
         </div>
