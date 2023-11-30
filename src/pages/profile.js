@@ -1,8 +1,13 @@
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../components/Header";
+import { GlobalContext } from "../state/context/GlobalContext";
 
 const ProfilePage = () => {
+  const { user } = useContext(GlobalContext);
+
+  console.log("user.url", user);
+
   return (
     <div className="w-full h-full bg-[#FAFAFA]">
       <Header />
@@ -52,7 +57,8 @@ const ProfilePage = () => {
                         objectFit="fill"
                         alt=""
                         src={
-                          "https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg"
+                          user.url ||
+                          "https://minio-api.dev.approach.vn/bestone-dev/client/0550cf32-9d36-4e17-952c-8da98d9ebe58/Son-Tung-1.jpeg"
                         }
                         width={150}
                         height={150}
@@ -101,30 +107,27 @@ const ProfilePage = () => {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
+                    제니
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
-                    Los Angeles, California
+                    로스엔젤레스, 캘리포니아
                   </div>
                   <div className="mb-2 text-blueGray-600 mt-10">
                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
-                    Solution Manager - Creative Tim Officer
+                    Creative Tim Officer IT매니저 - 크리에이터
                   </div>
                   <div className="mb-2 text-blueGray-600">
                     <i className="fas fa-university mr-2 text-lg text-blueGray-400" />
-                    University of Computer Science
+                    컴퓨터사이언스 전공
                   </div>
                 </div>
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
                       <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                        An artist of considerable range, Jenna the name taken by
-                        Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                        performs and records all of his own music, giving it a
-                        warm, intimate feel with a solid groove structure. An
-                        artist of considerable range.
+                        IT매니저이자 1인 크리에이터 활동을 하고있으며, Day
+                        Dreamer 의 삶을 추구합니다.<br /> # giving it a warm<br /> # INFP
                       </p>
                       <a href="#pablo" className="font-normal text-pink-500">
                         Show more
@@ -147,7 +150,7 @@ const ProfilePage = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Notus JS
+                      Next JS
                     </a>{" "}
                     by{" "}
                     <a
@@ -157,7 +160,7 @@ const ProfilePage = () => {
                       rel="noreferrer"
                     >
                       {" "}
-                      Creative Tim
+                      KOVi Team
                     </a>
                     .
                   </div>
