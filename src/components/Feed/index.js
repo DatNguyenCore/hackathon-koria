@@ -106,7 +106,7 @@ const Feed = () => {
 
   const handleUploadPost = async () => {
     try {
-      const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjA1NTBjZjMyLTlkMzYtNGUxNy05NTJjLThkYTk4ZDllYmU1OCIsImZhbWlseVRva2VuIjoiMWI2ZmZlZjQtMzQyZS00MmZkLTg2Y2ItMmRmYjMxZjYyZGIwIiwiaWF0IjoxNzAxMzM2OTc3LCJleHAiOjE3MDEzNDA1Nzd9.A4emNFjxprP5xeVDB9rDHlDZHhf2ycjPEbGDr581YxLyW3Q2-su7OUs8Hg-KuRz0-t8XO8Cdd3krW7rrPu8wrl-Eo9VvHmC3ywCNK0QfzEf7_vwmMvQjkS8VeSxDolwp99Ace0tNaIvUjyiKgZmIVt3pUv0Gc0vMvzzppsX9Zvj2ZpFrtEj8m6TDCFEYzmYFQCgMifTkbIv0bLdAHr1aByFc0KAUGMeVuVkDNesIlQMT0l7hP4GkPlZUgmoM-FWmkCmJyEQgSqzl8mJasCGPjpP37H_DAFLf5YHuvroGQpxO_17VoQkvwykfAU3-QGQX4jgO9b0O_rSrsxTj3_6GLg`;
+      const token = `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjA1NTBjZjMyLTlkMzYtNGUxNy05NTJjLThkYTk4ZDllYmU1OCIsImZhbWlseVRva2VuIjoiMzA1YTk1YzQtY2VlNi00MDEwLTlkNTQtYjdhNWM2NDczM2IzIiwiaWF0IjoxNjk2NTc4ODQwLCJleHAiOjE3MjgxMzY0NDB9.WkvnEf6YkKE_3F2vMGPgfUE6z2BUwUkcRwDUxwV_uELVUN3oYeQOzHVfMqDJ-HXEQ047m-3egax4FNGW_a3S5mUUkYVNcb8dM1jamYDR7bVW1xrrfc_5symeaRQsRULyZfrqs2QZRF_-4vaHprcFohm8yg_BQFQOLu1tYtU8sZlsDKAcXQVd8Qoi0kvC1sV_ZB4fGzdGrdyNqc135XpgS66foBptNM2BInT7MlDwpjyvcrEQKtenO3my2s80lZ4VCdRHKhMcjCuebXBbzAYw42qKPnBp_FcBIuUqLmCGbrN_F3WiqeWJPcGo3QML9KJztZPe3g7PoRy3UQuc614wxg`;
       const formData = new FormData();
       formData.append("file", file);
       const { data } = await axios.post(
