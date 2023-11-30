@@ -19,6 +19,8 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
+import Friend from "../Friend";
+import { People } from "./data";
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -241,8 +243,15 @@ const Feed = () => {
                 <Post key={post.id} {...post} />
               ))}
             </div>
-            <div className="bg-red-500">
-              
+            <div>
+              <div className="mb-4">
+                <span>Friends</span>
+              </div>
+              {People.map((item) => {
+                return (
+                  <Friend key={item.name} img={item.img} name={item.name} />
+                );
+              })}
             </div>
           </div>
 
