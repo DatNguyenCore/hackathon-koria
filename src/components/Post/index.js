@@ -118,6 +118,8 @@ const Post = ({ id, username, image, caption, likesCount, desc, images }) => {
     await setDoc(commentRef, commentData);
   };
 
+  console;
+
   return (
     <>
       <div className="flex flex-col w-full border border-gray-200">
@@ -230,7 +232,7 @@ const Post = ({ id, username, image, caption, likesCount, desc, images }) => {
               images.map((item) => {
                 return (
                   <div key={item}>
-                    <img src={image} alt={caption} className="object-cover" />
+                    <img src={item} alt={caption} className="object-cover" />
                   </div>
                 );
               })}
