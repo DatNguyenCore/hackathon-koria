@@ -21,7 +21,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import Friend from "../Friend";
-import { People } from "./data";
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -89,7 +88,7 @@ const Feed = () => {
       createdAt: serverTimestamp(),
     };
     try {
-      await setDoc(postRef, post);
+      const { data } = await axios.put("/api/posts/", post);
     } catch (error) {
       console.error(error);
       toast.error("error posting the image");
@@ -97,14 +96,6 @@ const Feed = () => {
   };
 
   const handleUploadPost = async () => {
-    if (!file) return toast.error("please select a image first");
-    setMedia((prev) => ({ ...prev, isUploading: true }));
-
-    const toastId = toast.loading("uploading your post, wait a minute...");
-    const postName = `posts/${uuidv4()}-${file.name}`;
-
-    const storageRef = ref(storage, postName);
-
     try {
       const uploadTask = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(uploadTask.ref);
@@ -117,13 +108,6 @@ const Feed = () => {
         id: toastId,
       });
     } finally {
-      setMedia({
-        src: "",
-        isUploading: false,
-        caption: "",
-      });
-      setFile("");
-      closeModal();
     }
   };
 
@@ -133,6 +117,7 @@ const Feed = () => {
   };
 
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -146,16 +131,27 @@ const Feed = () => {
     // });
   }, []);
 
+  const getPosts = async () => {
+    setLoading(true);
+    const { data } = await axios.get("/api/posts");
+    setLoading(false);
+    if (data) {
+      setPosts(data);
+    }
+  };
+
+  const getUsers = async () => {
+    setLoading(true);
+    const { data } = await axios.get("/api/users");
+    setLoading(false);
+    if (data) {
+      setUsers(data);
+    }
+  };
+
   useEffect(() => {
-    const getPosts = async () => {
-      setLoading(true);
-      const { data } = await axios.get("/api/posts");
-      setLoading(false);
-      if (data) {
-        setPosts(data);
-      }
-    };
     getPosts();
+    getUsers();
   }, []);
 
   return (
@@ -268,7 +264,7 @@ const Feed = () => {
                   Your story
                 </a>
               </li>
-              {People.map((user) => {
+              {users.map((user) => {
                 return (
                   <li
                     className="flex flex-none flex-col items-center space-y-1"
@@ -311,7 +307,7 @@ const Feed = () => {
               <div className="mb-4">
                 <span>Friends</span>
               </div>
-              {People.map((item) => {
+              {users.map((item) => {
                 return (
                   <Friend
                     key={item.name}
