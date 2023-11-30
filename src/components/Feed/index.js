@@ -20,12 +20,8 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-<<<<<<< Updated upstream
 import Friend from "../Friend";
 import { People } from "./data";
-=======
-import { postsData } from "./data";
->>>>>>> Stashed changes
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -331,7 +327,6 @@ const Feed = () => {
                 <Post key={post.id} {...post} />
               ))}
             </div>
-<<<<<<< Updated upstream
             <div>
               <div className="mb-4">
                 <span>Friends</span>
@@ -346,9 +341,6 @@ const Feed = () => {
                 );
               })}
             </div>
-=======
-            <div className="bg-red-500"></div>
->>>>>>> Stashed changes
           </div>
 
           {/* posts section */}
