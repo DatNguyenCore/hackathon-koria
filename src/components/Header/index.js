@@ -55,7 +55,7 @@ const Header = () => {
     <header className="fixed top-0 z-10 flex items-center justify-around w-full h-16 bg-white shadow-md">
       <Link href="/">
         <div className="text-xl font-semibold tracking-wider cursor-pointer select-none">
-          Instagram
+          KOVi
         </div>
       </Link>
       <div className="flex items-center px-2 space-x-4 bg-gray-100 border border-gray-400 rounded-lg group group-focus:border-gray-400">

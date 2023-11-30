@@ -88,7 +88,7 @@ const Auth = () => {
         createdAt: serverTimestamp(),
       });
 
-      toast.success('welcome to instagram clone by clubofcoders.com');
+      toast.success('welcome to KOVi clone by clubofcoders.com');
 
       dispatch({
         type: 'SET_IS_ONBOARDED',
@@ -188,7 +188,7 @@ const Auth = () => {
                 onSubmit={submitHandler}
                 className="flex flex-col items-center space-y-5"
               >
-                <div className="my-5 text-5xl tracking-wider">Instagram</div>
+                <div className="my-5 text-5xl tracking-wider">KOVi</div>
                 <input
                   type="email"
                   name="email"
@@ -222,7 +222,7 @@ const Auth = () => {
                 onSubmit={onboardingSubmitHandler}
                 className="flex flex-col items-center space-y-5"
               >
-                <div className="my-5 text-5xl tracking-wider">Instagram</div>
+                <div className="my-5 text-5xl tracking-wider">KOVi</div>
                 <input
                   type="username"
                   name="username"

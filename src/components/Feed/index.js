@@ -1,15 +1,15 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import {
   GlobalContext,
   GlobalDispatchContext,
-} from '../../state/context/GlobalContext';
-import Header from '../Header';
-import Modal from '../Modal';
-import Post from '../Post';
-import { db, storage } from '../../lib/firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { uuidv4 } from '@firebase/util';
+} from "../../state/context/GlobalContext";
+import Header from "../Header";
+import Modal from "../Modal";
+import Post from "../Post";
+import { db, storage } from "../../lib/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { uuidv4 } from "@firebase/util";
 import {
   collection,
   doc,
@@ -18,7 +18,7 @@ import {
   query,
   serverTimestamp,
   setDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -26,19 +26,19 @@ const Feed = () => {
 
   const closeModal = () => {
     dispatch({
-      type: 'SET_IS_UPLOAD_POST_MODAL_OPEN',
+      type: "SET_IS_UPLOAD_POST_MODAL_OPEN",
       payload: {
         isUploadPostModalOpen: false,
       },
     });
   };
 
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState("");
 
   const [media, setMedia] = useState({
-    src: '',
+    src: "",
     isUploading: false,
-    caption: '',
+    caption: "",
   });
 
   useEffect(() => {
@@ -46,28 +46,28 @@ const Feed = () => {
 
     const handleEvent = (e) => {
       switch (e.type) {
-        case 'load':
+        case "load":
           return setMedia((prev) => ({
             ...prev,
             src: reader.result,
           }));
-        case 'error':
+        case "error":
           console.log(e);
-          return toast.error('something not working');
+          return toast.error("something not working");
         default:
           return;
       }
     };
 
     if (file) {
-      reader.addEventListener('load', handleEvent);
-      reader.addEventListener('error', handleEvent);
+      reader.addEventListener("load", handleEvent);
+      reader.addEventListener("error", handleEvent);
       reader.readAsDataURL(file);
     }
 
     return () => {
-      reader.removeEventListener('load', handleEvent);
-      reader.removeEventListener('error', handleEvent);
+      reader.removeEventListener("load", handleEvent);
+      reader.removeEventListener("error", handleEvent);
     };
   }, [file]);
 
@@ -77,7 +77,7 @@ const Feed = () => {
 
   const handlePostMedia = async (url) => {
     const postId = uuidv4();
-    const postRef = doc(db, 'posts', postId);
+    const postRef = doc(db, "posts", postId);
     const post = {
       id: postId,
       image: url,
@@ -89,15 +89,15 @@ const Feed = () => {
       await setDoc(postRef, post);
     } catch (error) {
       console.error(error);
-      toast.error('error posting the image');
+      toast.error("error posting the image");
     }
   };
 
   const handleUploadPost = async () => {
-    if (!file) return toast.error('please select a image first');
+    if (!file) return toast.error("please select a image first");
     setMedia((prev) => ({ ...prev, isUploading: true }));
 
-    const toastId = toast.loading('uploading your post, wait a minute...');
+    const toastId = toast.loading("uploading your post, wait a minute...");
     const postName = `posts/${uuidv4()}-${file.name}`;
 
     const storageRef = ref(storage, postName);
@@ -106,27 +106,27 @@ const Feed = () => {
       const uploadTask = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(uploadTask.ref);
       await handlePostMedia(url);
-      toast.success('image has uploaded', {
+      toast.success("image has uploaded", {
         id: toastId,
       });
     } catch (error) {
-      toast.error('failed to upload the image', {
+      toast.error("failed to upload the image", {
         id: toastId,
       });
     } finally {
       setMedia({
-        src: '',
+        src: "",
         isUploading: false,
-        caption: '',
+        caption: "",
       });
-      setFile('');
+      setFile("");
       closeModal();
     }
   };
 
   const handleRemovePost = () => {
-    setFile('');
-    currentImage.current.src = '';
+    setFile("");
+    currentImage.current.src = "";
   };
 
   const [posts, setPosts] = useState([]);
@@ -134,8 +134,8 @@ const Feed = () => {
 
   useEffect(() => {
     setLoading(true);
-    const postsCollection = collection(db, 'posts');
-    const q = query(postsCollection, orderBy('createdAt', 'desc'));
+    const postsCollection = collection(db, "posts");
+    const q = query(postsCollection, orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
       const posts = snapshot.docs.map((doc) => doc.data());
       setPosts(posts);
@@ -212,10 +212,21 @@ const Feed = () => {
         </div>
       </Modal>
 
-      <div className="grid w-full max-w-screen-lg grid-cols-3 gap-6 mx-auto mt-20 ">
+      {/* <div className="w-full">
+        <section className="flex p-4 space-x-4 span-2 overflow-x-scroll bg-white border border-black/10">
+          {new Array(10).fill(0).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-full w-14 ring-[2px] ring-pink-500 ring-offset-2 h-14 bg-black flex-none"
+            />
+          ))}
+        </section>
+      </div> */}
+
+      <div className="grid w-full max-w-screen-lg mx-auto mt-20 ">
         <div className="flex flex-col w-full col-span-2 space-y-5 border-t-2 border-pink-500">
           {/* stories section */}
-          <section className="flex p-4 space-x-4 overflow-x-scroll bg-white border border-black/10">
+          <section className="flex p-4 space-x-4 span-2 overflow-x-scroll bg-white border border-black/10">
             {new Array(10).fill(0).map((_, i) => (
               <div
                 key={i}
@@ -224,16 +235,35 @@ const Feed = () => {
             ))}
           </section>
 
+          <div className="grid grid-cols-4 gap-4">
+            <div className="col-span-3 bg-red-100 bg-green-500">
+              {posts.map((post) => (
+                <Post key={post.id} {...post} />
+              ))}
+            </div>
+            <div className="bg-red-500">
+              
+            </div>
+          </div>
+
           {/* posts section */}
-          <section className="flex flex-col gap-y-3">
+          {/* <section
+            className="grid grid-cols-4 gap-4 bg-red-500"
+            style={{
+              height: 500,
+            }}
+          >
+            <div>
+
             {posts.map((post) => (
               <Post key={post.id} {...post} />
             ))}
-          </section>
+            </div>
+          </section>{" "} */}
         </div>
 
         {/* this is our sidebar */}
-        <div className="fixed right-[15%] max-w-sm">
+        {/* <div className="fixed right-[15%] max-w-sm">
           <div className="flex">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates,
             optio? Eius quia quis iste ipsa in impedit eligendi voluptatibus
@@ -248,7 +278,7 @@ const Feed = () => {
             unde tenetur consectetur vero! Veniam sequi et a illo consectetur
             repellat.
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
