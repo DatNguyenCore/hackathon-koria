@@ -1,5 +1,4 @@
 import React from "react";
-import { useContext, useEffect, useRef, useState } from "react";
 
 const Friend = ({ img, name }) => {
   return (

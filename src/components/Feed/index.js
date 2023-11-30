@@ -21,6 +21,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import Friend from "../Friend";
+import ModalArtical from "../ModalArticle";
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -296,6 +297,8 @@ const Feed = () => {
               })}
             </ul>
           </section>
+
+          <ModalArtical />
 
           <div className="grid grid-cols-4 gap-4 w-full w-[1200px] mx-auto">
             <div className="col-span-3 ">

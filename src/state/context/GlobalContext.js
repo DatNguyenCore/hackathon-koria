@@ -1,8 +1,8 @@
-import React, { createContext, useEffect, useReducer } from 'react';
-import { globalReducer } from '../reducers/globalReducer';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../lib/firebase';
-import useFetchCurrentUser from '../../utils/fetchCurrentUser';
+import React, { createContext, useEffect, useReducer } from "react";
+import { globalReducer } from "../reducers/globalReducer";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../lib/firebase";
+import useFetchCurrentUser from "../../utils/fetchCurrentUser";
 
 const intialState = {
   user: {},
@@ -10,6 +10,7 @@ const intialState = {
   isOnboarded: false,
   isLoading: true,
   isUploadPostModalOpen: false,
+  isDetailPostModalOpen: false,
 };
 
 export const GlobalContext = createContext(intialState);
@@ -23,7 +24,7 @@ const GlobalContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         dispatch({
-          type: 'SET_IS_AUTHENTICATED',
+          type: "SET_IS_AUTHENTICATED",
           payload: {
             isAuthenticated: true,
           },
@@ -31,13 +32,13 @@ const GlobalContextProvider = ({ children }) => {
         const userData = await fetchUser();
         if (userData) {
           dispatch({
-            type: 'SET_USER',
+            type: "SET_USER",
             payload: {
               user: userData,
             },
           });
           dispatch({
-            type: 'SET_IS_ONBOARDED',
+            type: "SET_IS_ONBOARDED",
             payload: {
               isOnboarded: true,
             },
@@ -45,7 +46,7 @@ const GlobalContextProvider = ({ children }) => {
         }
       }
       dispatch({
-        type: 'SET_LOADING',
+        type: "SET_LOADING",
         payload: {
           isLoading: false,
         },

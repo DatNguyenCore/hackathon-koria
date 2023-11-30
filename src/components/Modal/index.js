@@ -29,7 +29,7 @@ const Modal = ({ children, isOpen, closeModal }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl  rounded-2xl">
+                <Dialog.Panel className="overflow-hidden text-left transition-all transform bg-white shadow-xl  rounded">
                   <div>{children}</div>
                 </Dialog.Panel>
               </Transition.Child>
