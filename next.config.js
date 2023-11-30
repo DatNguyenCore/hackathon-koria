@@ -10,6 +10,7 @@ const nextConfig = {
       "www.google.com",
       "dynamic-media-cdn.tripadvisor.com",
       "cdn.tgdd.vn",
+      "demos.creative-tim.com",
     ],
   },
   experimental: {

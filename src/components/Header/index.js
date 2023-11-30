@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { BsSearch } from 'react-icons/bs';
-import HeaderIcon from '../Header/HeaderIcon';
+import Link from "next/link";
+import { BsSearch } from "react-icons/bs";
+import HeaderIcon from "../Header/HeaderIcon";
 import {
   Add,
   Home,
@@ -8,44 +8,46 @@ import {
   Messenger,
   Compass,
   Profile,
-} from '../Header/HeaderIcons';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../lib/firebase';
+} from "../Header/HeaderIcons";
+import { signOut } from "firebase/auth";
+import { auth } from "../../lib/firebase";
+import { useRouter } from "next/router";
 
 const HEADER_ITEMS = [
   {
     icon: Home,
-    url: '/',
-    name: 'Home',
+    url: "/",
+    name: "Home",
   },
   {
     icon: Messenger,
-    url: '/',
-    name: 'Messenger',
+    url: "/",
+    name: "Messenger",
   },
   {
     icon: Add,
-    url: '/',
-    name: 'Add',
+    url: "/",
+    name: "Add",
   },
   {
     icon: Compass,
-    url: '/',
-    name: 'Discover',
+    url: "/",
+    name: "Discover",
   },
   {
     icon: Heart,
-    url: '/',
-    name: 'Likes',
+    url: "/",
+    name: "Likes",
   },
   {
     icon: Profile,
-    url: '/',
-    name: 'Profile',
+    url: "/profile",
+    name: "Profile",
   },
 ];
 
 const Header = () => {
+  const router = useRouter();
   const handleLogout = async () => {
     await signOut(auth);
     window.location.reload();
@@ -73,7 +75,14 @@ const Header = () => {
       <div className="flex items-center space-x-2">
         <div className="flex space-x-4">
           {HEADER_ITEMS.map((item) => (
-            <HeaderIcon Icon={item.icon} name={item.name} key={item.name} />
+            <span
+              key={item.name}
+              onClick={() => {
+                router.push(item.url);
+              }}
+            >
+              <HeaderIcon Icon={item.icon} name={item.name} />
+            </span>
           ))}
         </div>
         <button
