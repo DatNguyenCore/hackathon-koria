@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -19,8 +20,12 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
+<<<<<<< Updated upstream
 import Friend from "../Friend";
 import { People } from "./data";
+=======
+import { postsData } from "./data";
+>>>>>>> Stashed changes
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -135,16 +140,27 @@ const Feed = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    const postsCollection = collection(db, "posts");
-    const q = query(postsCollection, orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      const posts = snapshot.docs.map((doc) => doc.data());
-      setPosts(posts);
-      setLoading(false);
-    });
+    // setLoading(true);
+    // const postsCollection = collection(db, "posts");
+    // const q = query(postsCollection, orderBy("createdAt", "desc"));
+    // onSnapshot(q, (snapshot) => {
+    //   const posts = snapshot.docs.map((doc) => doc.data());
+    //   setPosts(posts);
+    //   setLoading(false);
+    // });
   }, []);
-  console.log(posts);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      setLoading(true);
+      const { data } = await axios.get("/api/posts");
+      setLoading(false);
+      if (data) {
+        setPosts(data);
+      }
+    };
+    getPosts();
+  }, []);
 
   return (
     <div className="w-full h-full bg-[#FAFAFA]">
@@ -315,6 +331,7 @@ const Feed = () => {
                 <Post key={post.id} {...post} />
               ))}
             </div>
+<<<<<<< Updated upstream
             <div>
               <div className="mb-4">
                 <span>Friends</span>
@@ -329,6 +346,9 @@ const Feed = () => {
                 );
               })}
             </div>
+=======
+            <div className="bg-red-500"></div>
+>>>>>>> Stashed changes
           </div>
 
           {/* posts section */}
