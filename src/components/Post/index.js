@@ -33,8 +33,8 @@ const Post = ({
   userUrl,
 }) => {
   const [visible, setVisible] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
 
   const onCloseModal = () => {
     setVisible(false);
@@ -44,71 +44,40 @@ const Post = ({
     setVisible(true);
   }
 
-  const handleLikePost = async () => {
-    const postLike = {
-      postId: id,
-      userId: auth.currentUser.uid,
-      username,
-    };
+  function onLikePost() {
+    setIsLiked((state) => !state);
+  }
 
-    const likeRef = doc(db, `likes/${id}_${auth.currentUser.uid}`);
-    const postRef = doc(db, `posts/${id}`);
+  // useEffect(() => {
+  //   // const likesRef = collection(db, "likes");
+  //   // const likesQuery = query(
+  //   //   likesRef,
+  //   //   where("postId", "==", id),
+  //   //   where("userId", "==", auth.currentUser.uid)
+  //   // );
 
-    let updatedLikesCount;
+  //   // const unsubscribeLike = onSnapshot(likesQuery, (snapshot) => {
+  //   //   const like = snapshot.docs.map((doc) => doc.data());
+  //   //   if (like.length !== 0) {
+  //   //     setIsLiked(true);
+  //   //   } else {
+  //   //     setIsLiked(false);
+  //   //   }
+  //   // });
 
-    if (isLiked) {
-      await deleteDoc(likeRef);
-      if (likesCount) {
-        updatedLikesCount = likesCount - 1;
-      } else {
-        updatedLikesCount = 0;
-      }
-      await updateDoc(postRef, {
-        likesCount: updatedLikesCount,
-      });
-    } else {
-      await setDoc(likeRef, postLike);
-      if (likesCount) {
-        updatedLikesCount = likesCount + 1;
-      } else {
-        updatedLikesCount = 1;
-      }
-      await updateDoc(postRef, {
-        likesCount: updatedLikesCount,
-      });
-    }
-  };
+  //   // const commentsRef = collection(db, `posts/${id}/comments`);
+  //   // const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
 
-  useEffect(() => {
-    const likesRef = collection(db, "likes");
-    const likesQuery = query(
-      likesRef,
-      where("postId", "==", id),
-      where("userId", "==", auth.currentUser.uid)
-    );
+  //   // const unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
+  //   //   const comments = snapshot.docs.map((doc) => doc.data());
+  //   //   setComments(comments);
+  //   // });
 
-    const unsubscribeLike = onSnapshot(likesQuery, (snapshot) => {
-      const like = snapshot.docs.map((doc) => doc.data());
-      if (like.length !== 0) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
-      }
-    });
-
-    const commentsRef = collection(db, `posts/${id}/comments`);
-    const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
-
-    const unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
-      const comments = snapshot.docs.map((doc) => doc.data());
-      setComments(comments);
-    });
-
-    return () => {
-      unsubscribeLike();
-      unsubscribeComments();
-    };
-  }, [id]);
+  //   return () => {
+  //     // unsubscribeLike();
+  //     // unsubscribeComments();
+  //   };
+  // }, [id]);
 
   const comment = useRef(null);
 
@@ -165,7 +134,7 @@ const Post = ({
         </div>
         <div className="flex justify-between p-2 text-lg">
           <div className="flex space-x-2">
-            <div onClick={handleLikePost}>
+            <div onClick={onLikePost}>
               {isLiked ? (
                 <AiFillHeart
                   size={25}
