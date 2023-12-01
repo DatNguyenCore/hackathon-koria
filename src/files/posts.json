@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "username": "ko_vi",
     "image": "https://minio-api.dev.approach.vn/bestone-dev/client/0550cf32-9d36-4e17-952c-8da98d9ebe58/1.1.jpeg",
     "caption": "11월의 주말, 자연에서 힐링할래?",
@@ -14,7 +14,7 @@
     "desc": "나무가 뿜어내는 맑은 공기 가득한 숲 속, 탁 트인 하늘, 우리는 자연이라는 공간에 있을때 비로소 몸과 마음이 릴렉스 되는 것을 느낄 수 있어. 찬바람 불때 숯불에 고기구워 먹고 나면 고구마는 덤! 마지막 하이라이트 라면은 못참지!"
   },
   {
-    "id": 2,
+    "id": "2",
     "username": "ko_vi",
     "image": "https://minio-api.dev.approach.vn/bestone-dev/client/0550cf32-9d36-4e17-952c-8da98d9ebe58/2.2.jpeg",
     "caption": "오늘 밤을 기다려왔어, 24시 까페",
@@ -29,7 +29,7 @@
     "desc": "오늘하루도 하얗게 불태웠다.. 집에가면 넷플릭스밖에 없고, 단골 술집도 10시면 문닫는 하노이... 답답하지? 밤이 되면 빛이 나는 이곳, 처음보는 말도 안되는 공간이 펼쳐질꺼야 밤새워 멍때려도 아무도 방해하지 않는 이곳으로 너를 초대할께."
   },
   {
-    "id": 3,
+    "id": "3",
     "username": "tatiana_pavlova",
     "image": "https://minio-api.dev.approach.vn/bestone-dev/client/0550cf32-9d36-4e17-952c-8da98d9ebe58/3.1.jpeg",
     "caption": "음악이 있는 나만의 혼술 아지트",
@@ -44,7 +44,7 @@
     "desc": "무엇에도 방해받지 않고 음악과 혼술을 즐길 수 있는 비밀 아지트. 입구부터 색다르고 비밀스러운 소개하고 싶어서 6개월을 고민했어. 이제는 공개할께, 화려한 짱띠엔 플라자 건너편의 작은 빌딩, 빨간색 철문을 비밀스럽게 열고 들어가면 펼쳐지는 새로운 공간."
   },
   {
-    "id": 4,
+    "id": "4",
     "username": "aiony_haust",
     "userUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
     "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/53/7e/43/trang-an-tours.jpg?w=1200&h=-1&s=1",
@@ -53,7 +53,7 @@
     "desc": "Lorem text"
   },
   {
-    "id": 5,
+    "id": "5",
     "username": "joel_mott",
     "userUrl": "https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=689&q=80",
     "image": "https://cdn.tgdd.vn/Files/2022/03/27/1422549/kinh-nghiem-du-lich-chua-tam-chuc-ninh-binh-day-du-nhat-202203270201047132.jpg",

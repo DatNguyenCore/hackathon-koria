@@ -21,6 +21,7 @@ import { auth, db } from "../../lib/firebase";
 import { GlobalContext } from "../../state/context/GlobalContext";
 import ModalArticle from "../ModalArticle";
 import { getAvatar } from "./data";
+import axios from "axios";
 
 const Post = ({
   id,
@@ -48,36 +49,18 @@ const Post = ({
     setIsLiked((state) => !state);
   }
 
-  // useEffect(() => {
-  //   // const likesRef = collection(db, "likes");
-  //   // const likesQuery = query(
-  //   //   likesRef,
-  //   //   where("postId", "==", id),
-  //   //   where("userId", "==", auth.currentUser.uid)
-  //   // );
+  const getComments = async () => {
+    const { data } = await axios.get(`/api/${id}/comments`);
+    if (data) {
+      setComments(data);
+    }
+  };
 
-  //   // const unsubscribeLike = onSnapshot(likesQuery, (snapshot) => {
-  //   //   const like = snapshot.docs.map((doc) => doc.data());
-  //   //   if (like.length !== 0) {
-  //   //     setIsLiked(true);
-  //   //   } else {
-  //   //     setIsLiked(false);
-  //   //   }
-  //   // });
-
-  //   // const commentsRef = collection(db, `posts/${id}/comments`);
-  //   // const commentsQuery = query(commentsRef, orderBy("createdAt", "desc"));
-
-  //   // const unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
-  //   //   const comments = snapshot.docs.map((doc) => doc.data());
-  //   //   setComments(comments);
-  //   // });
-
-  //   return () => {
-  //     // unsubscribeLike();
-  //     // unsubscribeComments();
-  //   };
-  // }, [id]);
+  useEffect(() => {
+    if (id) {
+      getComments();
+    }
+  }, [id]);
 
   const comment = useRef(null);
 
@@ -88,13 +71,13 @@ const Post = ({
     // comment functionality
     const commentData = {
       id: uuidv4(),
+      userUrl: user.url,
       username: user.username,
       comment: comment.current.value,
-      createdAt: serverTimestamp(),
+      createdAt: new Date().toISOString(),
     };
-    comment.current.value = "";
-    const commentRef = doc(db, `posts/${id}/comments/${commentData.id}`);
-    await setDoc(commentRef, commentData);
+    await axios.post(`api/${id}/comments`, commentData);
+    getComments();
   };
 
   console;
@@ -175,6 +158,12 @@ const Post = ({
           <div className="flex flex-col space-y-1">
             {comments.map((commentData) => (
               <div key={commentData.id} className="flex space-x-2">
+                <Image
+                  alt=""
+                  src={commentData.userUrl}
+                  width={16}
+                  height={16}
+                />
                 <div className="font-medium">{commentData.username}</div>
                 <div>{commentData.comment}</div>
               </div>
