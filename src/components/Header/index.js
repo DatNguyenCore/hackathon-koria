@@ -12,6 +12,7 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { useRouter } from "next/router";
+import ActivityCollection from "../ActivityCollection";
 
 const HEADER_ITEMS = [
   {
@@ -74,16 +75,22 @@ const Header = () => {
       </div>
       <div className="flex items-center space-x-2">
         <div className="flex space-x-4">
-          {HEADER_ITEMS.map((item) => (
-            <span
-              key={item.name}
-              onClick={() => {
-                router.push(item.url);
-              }}
-            >
-              <HeaderIcon Icon={item.icon} name={item.name} />
-            </span>
-          ))}
+          {HEADER_ITEMS.map((item) => {
+            if (item.name === "Likes") {
+              return <ActivityCollection />;
+            }
+
+            return (
+              <span
+                key={item.name}
+                onClick={() => {
+                  router.push(item.url);
+                }}
+              >
+                <HeaderIcon Icon={item.icon} name={item.name} />
+              </span>
+            );
+          })}
         </div>
         <button
           onClick={handleLogout}
