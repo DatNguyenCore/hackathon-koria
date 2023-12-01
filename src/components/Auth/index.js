@@ -154,6 +154,7 @@ const Auth = () => {
         `you have successfully ${isLoginForm ? "logged in" : "signed up"}`
       );
     resetForm();
+    window.location.reload();
   };
 
   const isDisabled = useMemo(() => {
@@ -175,6 +176,7 @@ const Auth = () => {
         isLoading: false,
       },
     });
+    window.location.reload();
   };
 
   return (

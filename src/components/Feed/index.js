@@ -8,7 +8,7 @@ import {
 import Header from "../Header";
 import Modal from "../Modal";
 import Post from "../Post";
-import { db, storage } from "../../lib/firebase";
+import { db, auth } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { uuidv4 } from "@firebase/util";
 import {
@@ -22,6 +22,11 @@ import {
 } from "firebase/firestore";
 import Friend from "../Friend";
 import ModalArticle from "../ModalArticle";
+import { handlePromise } from "../../utils/handlePromise";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const Feed = () => {
   const { isUploadPostModalOpen } = useContext(GlobalContext);
@@ -158,18 +163,8 @@ const Feed = () => {
     }
   };
 
-  const getUsers = async () => {
-    setLoading(true);
-    const { data } = await axios.get("/api/users");
-    setLoading(false);
-    if (data) {
-      setUsers(data);
-    }
-  };
-
   useEffect(() => {
     getPosts();
-    // getUsers();
   }, []);
 
   return (
